@@ -1,6 +1,7 @@
 package io.project.app.mailsender.resources;
 
-import io.project.app.io.project.app.mailsender.services.MailSenderService;
+import io.micrometer.core.annotation.Timed;
+import io.project.app.mailsender.services.MailSenderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,8 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
-import io.project.app.mailsender.domain.MailSenderModel;
+import io.project.app.mailsender.domain.EmailData;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import io.project.app.mailsender.dto.EmailDataDTO;
 
 /**
  *
@@ -26,24 +32,31 @@ import org.springframework.http.MediaType;
 public class MailSenderController {
 
     @Autowired
-    private MailSenderService accountService;
+    public MailSenderService mailSenderService;
+    
 
 
-    @PutMapping(path = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
+
+    @PostMapping(path = "/contact")
     @CrossOrigin
-    @Transactional
-    public ResponseEntity<?> register(
-            @RequestBody(required = true) MailSenderModel registerRequest
-    ) throws Exception {
+    @Timed
+    @ApiOperation(value = "Get messages", response = String.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Messages Fetch successfully"),
+        @ApiResponse(code = 400, message = "Could not find any message")
+    }
+    )
 
-        Optional<MailSenderModel> doRegister = accountService.registerAccount(registerRequest);
-        if (doRegister.isPresent()) {
-          
-            return ResponseEntity.status(HttpStatus.OK).body(doRegister.get());
+    public ResponseEntity<?> contact(@RequestBody EmailDataDTO emailDataDTO) {
+
+        Optional<EmailData> emailData = mailSenderService.contactHicare(emailDataDTO);
+
+        if (emailData.isPresent()) {
+            log.info("Data sent");
+            return ResponseEntity.ok().body(emailData.get());
         }
 
-        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(("Could not register user"));
+        return ResponseEntity.badRequest().body(emailData.get());
     }
 
 }
