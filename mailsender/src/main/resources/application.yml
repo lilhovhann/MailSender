@@ -1,0 +1,57 @@
+management:
+  endpoint:    
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    jmx:
+      exposure:
+       include: '*'
+    web:
+     base-path: /management
+     exposure:
+      include: '*'
+      base-path: /actuator
+    cors:
+      allowed-origins: 'true'
+      enabled-by-default: 'false'
+    
+server:
+    http2:
+      enabled: true
+    port: 9091
+    servlet:
+      session:
+        timeout: 600s
+    undertow:
+       buffer-size: 65536
+       worker-threads: 800
+       no-request-timeout: 600s
+       threads:
+         io: 2000
+    compression:
+      enabled: true
+      mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+      min-response-size: 1024
+    
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: mailsender 
+
+       
+  servlet:
+    multipart:
+        max-file-size: 5MB
+        max-request-size: 5MB
+        enabled: true
+
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+    
+  data:
+    mongodb:   
+      uri: mongodb://DonDev:BC2022@mongodb:27017/socnetDB?ssl=false&connectTimeoutMS=300000&minPoolSize=0&maxPoolSize=100&maxIdleTimeMS=900000&readPreference=primaryPreferred&authSource=admin
+    
