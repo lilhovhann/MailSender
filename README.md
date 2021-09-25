@@ -16,4 +16,4 @@ sudo ./look.sh mailsender
 sudo./restart.sh
 
 # Push to github
-./push.sh
+sudo ./push.sh "Your message here"
