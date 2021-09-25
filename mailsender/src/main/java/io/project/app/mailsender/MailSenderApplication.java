@@ -22,6 +22,12 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+
+/**
+ *
+ * @author lilith
+ */
+
 @SpringBootApplication
 @EnableMongoRepositories("io.project.app.mailsender.repositories")
 @ComponentScan("io.project")
@@ -45,7 +51,7 @@ public class MailSenderApplication {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
         mailSender.setUsername("testformailsender123@gmail.com");
-        mailSender.setPassword("testformailsender8");
+        mailSender.setPassword("ofamanesim1");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package io.project.app.mailsender.services;
 
 import io.project.app.mailsender.domain.EmailData;
@@ -27,7 +22,7 @@ import io.project.app.mailsender.dto.EmailDataDTO;
 
 /**
  *
- * @author root
+ * @author lilith
  */
 @Service
 @Slf4j
@@ -54,15 +49,15 @@ public class MailSenderService {
             String htmlTemplate = "templates/contactEmailTemplate";
 
             this.initializeTemplateEngine();
-            context.setVariable("sender", "noreply@lilith.com");
-            context.setVariable("content", "My name is " + emailDataDTO.getName());
-            context.setVariable("mailTo", "lilith.hovhann@gmail.com");
+            context.setVariable("sender", "noreply@test.com");
+            context.setVariable("content", "My name is " + emailDataDTO.getName()+" This is a test email");
+            context.setVariable("mailTo", emailDataDTO.getEmail());
             String mailBody = templateEngine.process(htmlTemplate, context);
 
             emailData.setEmail(emailDataDTO.getEmail());
             emailData.setName(emailDataDTO.getName());
-            //write info@hic.am bellow
-            sendEmailtoPatient("lilith.hovhann@gmail.com", "Question from HiCare user", mailBody);
+
+            sendEmailtoPatient(emailDataDTO.getEmail(), "Test Subject", mailBody);
             emailDataRepository.save(emailData);
             return Optional.of(emailData);
         } catch (MessagingException ex) {
