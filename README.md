@@ -4,7 +4,7 @@ Just enter the email destination you want to send mail and it will send it a mai
 
 In the main class change the login and password credentials, just create a new test account in gmail.com to send emails from your test account
 
-If it will give you 535-5.7.8 Username and Password not accepted error, turn less secures app O in your account - https://www.google.com/settings/security/lesssecureapps
+If it will give you 535-5.7.8 Username and Password not accepted error, turn less secures app ON in your account - https://www.google.com/settings/security/lesssecureapps
 
 # Run
 sudo ./run.sh
